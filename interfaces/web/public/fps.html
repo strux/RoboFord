@@ -5,49 +5,54 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-			var w = 87,
-					a = 65,
-					s = 83,
-					d = 68;
+		
+			var validKeys = ["W", "A", "S", "D"],
+					downKeyMap = {
+						W: 'f', // forward
+						A: 'l', // left
+						S: 'b', // back
+						D: 'r'  // right
+					},
+					upKeyMap = {
+						W: 's', // stop
+						A: 'c', // center
+						S: 's', // stop
+						D: 'c'  // center
+					},
+					downKeys = [],
+					validKeyCodes = [];
+			for(var key in validKeys){
+				var code = validKeys[key].charCodeAt();
+				validKeyCodes.push(code);
+			}
+
 			$(document).ready(function(){
 				$(document).keydown(function(event) {
-		      $("body").append("<p>keydown on document: " + event.keyCode + "</p>");                 
-		      console.log(event)
-					if(event.keyCode == w){
-						command = 'f';
-					}
-					if(event.keyCode == s){
-						command = 'b';
-					}
-					if(event.keyCode == a){
-						command = 'l';
-					}
-					if(event.keyCode == d){
-						command = 'r';
-					}
-					$.ajax({
-						url: 'http://localhost:4567',
-						data: { command: command}
-					})
+					if($.inArray(event.keyCode, validKeyCodes) > -1 && $.inArray(event.keyCode, downKeys) == -1){
+						var chr = String.fromCharCode(event.keyCode);
+						console.log(event.type + ": " + chr);
+						downKeys.push(event.keyCode);
+						console.log(downKeys);
+						$.ajax({
+							url: 'http://localhost:4567',
+							data: { command: downKeyMap[chr]}
+						})
+					}							
 		    });
 				$(document).keyup(function(event) {
-		      $("body").append("<p>keyup on document: " + event.keyCode + "</p>");                 
-		      console.log(event)
-					if(event.keyCode == w){
-						command = 's';
-					}
-					if(event.keyCode == s){
-						command = 's';
-					}
-					if(event.keyCode == a || event.keyCode == d){
-						command = 'c';
-					}
-					$.ajax({
-						url: 'http://localhost:4567',
-						data: { command: command}
-					})
+					if($.inArray(event.keyCode, validKeyCodes) > -1 && $.inArray(event.keyCode, downKeys) > -1){
+						var chr = String.fromCharCode(event.keyCode);
+						console.log(event.type + ": " + chr);
+						downKeys.splice($.inArray(event.keyCode, downKeys), 1);
+						console.log(downKeys);
+						$.ajax({
+							url: 'http://localhost:4567',
+							data: { command: upKeyMap[chr]}
+						})
+					}							
 		    });
 			})
+
 		</script>
 	</body>
 </html>
