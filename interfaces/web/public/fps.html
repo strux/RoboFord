@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var w = 87,
+					a = 65,
+					s = 83,
+					d = 68;
+			$(document).ready(function(){
+				$(document).keydown(function(event) {
+		      $("body").append("<p>keydown on document: " + event.keyCode + "</p>");                 
+		      console.log(event)
+					if(event.keyCode == w){
+						command = 'f';
+					}
+					if(event.keyCode == s){
+						command = 'b';
+					}
+					if(event.keyCode == a){
+						command = 'l';
+					}
+					if(event.keyCode == d){
+						command = 'r';
+					}
+					$.ajax({
+						url: 'http://localhost:4567',
+						data: { command: command}
+					})
+		    });
+				$(document).keyup(function(event) {
+		      $("body").append("<p>keyup on document: " + event.keyCode + "</p>");                 
+		      console.log(event)
+					if(event.keyCode == w){
+						command = 's';
+					}
+					if(event.keyCode == s){
+						command = 's';
+					}
+					if(event.keyCode == a || event.keyCode == d){
+						command = 'c';
+					}
+					$.ajax({
+						url: 'http://localhost:4567',
+						data: { command: command}
+					})
+		    });
+			})
+		</script>
+	</body>
+</html>
