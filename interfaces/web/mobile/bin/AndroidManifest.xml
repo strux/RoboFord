@@ -44,12 +44,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
 
     <application android:icon="@drawable/icon" android:label="@string/app_name"
         android:hardwareAccelerated="true"
         android:debuggable="true">
         <activity android:name="RoboFord" android:label="@string/app_name"
+                android:screenOrientation="landscape"
                 android:theme="@android:style/Theme.Black.NoTitleBar"
                 android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale">
             <intent-filter>
