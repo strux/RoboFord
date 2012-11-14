@@ -5,24 +5,17 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-		
-			var validKeys = ["W", "A", "S", "D"],
-					downKeyMap = {
-						W: 'f', // forward
-						A: 'l', // left
-						S: 'b', // back
-						D: 'r'  // right
-					},
-					upKeyMap = {
-						W: 's', // stop
-						A: 'c', // center
-						S: 's', // stop
-						D: 'c'  // center
-					},
-					downKeys = [],
-					validKeyCodes = [];
-			for(var key in validKeys){
-				var code = validKeys[key].charCodeAt();
+
+			var commandMap = {
+				W: 'f', // forward
+				A: 'l', // left
+				S: 'b', // back
+				D: 'r'  // right
+			},
+			validKeyCodes = [],
+			downKeys = [];
+			for(var key in commandMap){
+				var code = key.charCodeAt();
 				validKeyCodes.push(code);
 			}
 
@@ -30,28 +23,49 @@
 				$(document).keydown(function(event) {
 					if($.inArray(event.keyCode, validKeyCodes) > -1 && $.inArray(event.keyCode, downKeys) == -1){
 						var chr = String.fromCharCode(event.keyCode);
-						console.log(event.type + ": " + chr);
 						downKeys.push(event.keyCode);
-						console.log(downKeys);
-						$.ajax({
-							url: 'http://localhost:4567',
-							data: { command: downKeyMap[chr]}
-						})
+						sendCommands();
 					}							
-		    });
+			    });
 				$(document).keyup(function(event) {
 					if($.inArray(event.keyCode, validKeyCodes) > -1 && $.inArray(event.keyCode, downKeys) > -1){
 						var chr = String.fromCharCode(event.keyCode);
-						console.log(event.type + ": " + chr);
 						downKeys.splice($.inArray(event.keyCode, downKeys), 1);
-						console.log(downKeys);
-						$.ajax({
-							url: 'http://localhost:4567',
-							data: { command: upKeyMap[chr]}
-						})
+						sendCommands();
 					}							
-		    });
+			    });
 			})
+
+			function sendCommands(){
+				var commands = [],
+					turnSent = false,
+					directionSent = false;
+				for(code in downKeys.reverse()){
+					// convert keyCodes to RC commands
+					command = commandMap[String.fromCharCode(downKeys[code])]
+					if(!turnSent && (command == 'l' || command == 'r')){
+						turnSent = true;
+						commands.push(command);
+					}	
+					if(!directionSent && (command == 'f' || command == 'b')){
+						directionSent = true;
+						commands.push(command);
+					}	
+				}
+				if(turnSent == false){ commands.push('c'); }
+				if(directionSent == false){ commands.push('s'); }
+				for(var i=0; i<commands.length; i++){
+					sendCommand(commands[i]);
+				}
+				console.log(commands);
+			}
+
+			function sendCommand(command){
+				$.ajax({
+					url: 'http://localhost:4567',
+					data: { command: command}
+				})
+			}
 
 		</script>
 	</body>
