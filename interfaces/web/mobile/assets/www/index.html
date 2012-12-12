@@ -3,25 +3,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <title>RoboFord Accelerometer Interface</title>
+        <style>
+            .control, .output{
+                float: left;
+            }
+            .control-right {
+                float: right;
+            }
+            .output {
+                margin-left: 50px;
+            }
+        </style>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="span1"><button id="calibrateLeft" class="btn btn-danger btn-large">Left</button></div>
-                <div class="span10" style="text-align: center;"><button id="calibrateCenter" class="btn btn-danger btn-large">Center</button></div>
-                <div class="span1"><button id="calibrateRight" class="btn btn-danger btn-large">Right</button></div>
-            </div>
+        <div class="control control-left">
+            <button id="backward" class="btn btn-danger btn-large">Reverse</button>
         </div>
-        <h3 id="status"></h3>
-        <table>
-            <tr><th>Position</th><th>x</th><th>y</th><th>z</th></tr>
-            <tr><th>Running</th><td id="x">0</td><td id="y">0</td><td id="z">0</td></tr>
-            <tr><th>Left</th><td id="left-x">0</td><td id="left-y">0</td><td id="left-z">0</td></tr>
-            <tr><th>Right</th><td id="right-x">0</td><td id="right-y">0</td><td id="right-z">0</td></tr>
-        </table>    
+        <div class="output">
+            <h1 id="direction"></h1>
+            <h1 id="status"></h1>
+            <p class=""><strong>X:</strong><span id="x"></span></p>
+            <p class=""><strong>Y:</strong><span id="y"></span></p>
+            <p class=""><strong>Z:</strong><span id="z"></span></p>
+        </div>
+        <div class="control control-right">
+            <button id="forward" class="btn btn-success btn-large">Forward</button>
+        </div>
         <script type="text/javascript" src="cordova-2.2.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>

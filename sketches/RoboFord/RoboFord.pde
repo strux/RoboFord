@@ -5,8 +5,8 @@ int speedpinA=9;//enable motor A
 int pinI3=12;//define I3 interface 
 int pinI4=13;//define I4 interface 
 int speedpinB=10;//enable motor B
-int driveSpeed=160;//define the drive speed 
-int turnSpeed=254;//define turn speed
+int driveSpeed=173;//define the drive speed 
+int turnSpeed=240;//define turn speed
 int incomingByte=0;//define serial message default
  
 void setup()
